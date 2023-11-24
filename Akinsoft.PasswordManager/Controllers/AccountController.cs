@@ -29,7 +29,7 @@ namespace Akinsoft.PasswordManager.Controllers
             if (usr == true)
             {
                 Session["UserName"] = mdl.UserName.ToString();
-                return Redirect("Home/Index");
+                return Redirect("/Home/Index");
             }
             else
             {

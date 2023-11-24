@@ -25,9 +25,9 @@ namespace Akinsoft.PasswordManager.Repositories
         {
             return connection.Query<Users>("SELECT * FROM [Users] order by UserName").ToList();
         }
-        public List<PasswordRecord> GetListPass()
+        public List<PasswordRecord> GetListPass(string user)
         {
-            return connection.Query<PasswordRecord>("SELECT * FROM [PasswordRecord] ").ToList();
+            return connection.Query<PasswordRecord>("SELECT * FROM [PasswordRecord] WHERE UserName=@key " , new {key=user}).ToList();
         }
         public Users GetUserID(int ID)
         {

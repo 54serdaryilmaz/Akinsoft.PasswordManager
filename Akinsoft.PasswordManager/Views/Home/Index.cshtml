@@ -1,4 +1,10 @@
 ﻿@model IEnumerable<Akinsoft.PasswordManager.Models.PasswordRecord>
+
+@{
+
+    ViewBag.Title = "My Passwords";
+
+}
 <!-- Bootstrap CSS -->
 <link href="~/Content/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
@@ -20,182 +26,203 @@
             <button id="addPasswordButton" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPasswordModal">Yeni Şifre Ekle</button>
         </p>
     </div>
-     
-        <div class="col-12">
-            <table class="table" id="passwordTable">
-                <thead>
+
+    <div class="col-12">
+        <table class="table" id="passwordTable">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Description</th>
+                    <th>URL</th>
+                    <th>Category</th>
+                    <th>Username</th>
+                    <th>Password</th>
+                    <th></th>
+                </tr>
+            </thead>
+            @*<tbody>
+                @foreach (var item in Model)
+                {
                     <tr>
-                        <th>Id</th>
-                        <th>Description</th>
-                        <th>URL</th>
-                        <th>Category</th>
-                        <th>Username</th>
-                        <th>Password</th>
-                        <th></th>
+                        <td>@item.Id</td>
+                        <td>@item.Description</td>
+                        <td>@item.Url</td>
+                        <td>@item.CategoryID</td>
+                        <td>@item.Username</td>
+                        <td>@item.Password</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Düzenle</a>
+                            <a data-id="@item.Id" class="btn btn-danger">Sil</a>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>@item.Id</td>
-                            <td>@item.Description</td>
-                            <td>@item.Url</td>
-                            <td>@item.CategoryID</td>
-                            <td>@item.Username</td>
-                            <td>@item.Password</td>
-                            <td>
-                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Düzenle</a>
-                                <a data-id="@item.Id" class="btn btn-danger">Sil</a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+                }
+            </tbody>*@
+        </table>
+    </div>
 
-        <div class="modal hide fade" id="addPasswordModal" data-backdrop="false" role="dialog" aria-labelledby="modal-title">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="addPasswordModalLabel">Yeni Şifre Ekle</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="addPasswordForm">
-
-                            <div class="mb-3">
-                                <label for="description" class="form-label">Kayıt Tanımı</label>
-                                <input type="text" class="form-control" id="Description" name="Description" required="required">
-                            </div>
-                            <div class="mb-3">
-                                <label for="description" class="form-label">URL</label>
-                                <input type="text" class="form-control" id="Url" name="Url" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="description" class="form-label">Açıklama</label>
-                                <input type="text" class="form-control" id="description" name="description" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="description" class="form-label">Kategori</label>
-                                @Html.DropDownList("CategoryID", null, htmlAttributes: new { @class = "form-control select-search " })
-                            </div>
-                            <div class="mb-3">
-                                <label for="description" class="form-label">Kullanıcı Adı</label>
-                                <input type="text" class="form-control" id="Username" name="Username" required="required">
-                            </div>
-
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control" id="generatedPassword" name="Password" placeholder="Parola" aria-label="Parola" aria-describedby="button-addon2">
-                                <button class="btn btn-outline-secondary" type="button" id="generatePasswordButton">Şifre Oluştur</button>
-                            </div>
-
-                            <button type="button" class="btn btn-primary" id="Kaydet">Ekle</button>
-                        </form>
-                    </div>
+    <div class="modal hide fade" id="addPasswordModal" data-backdrop="false" role="dialog" aria-labelledby="modal-title">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addPasswordModalLabel">Yeni Şifre Ekle</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
                 </div>
-            </div>
-        </div>
+                <div class="modal-body">
+                    <form id="addPasswordForm">
 
-        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="deleteModalLabel">Şifreyi Sil</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Şifreyi silmek istediğinizden emin misiniz?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
-                        <a id="deleteLink" class="btn btn-danger" href="#">Sil</a>
-                    </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Kayıt Tanımı</label>
+                            <input type="text" class="form-control" id="Description" name="Description" required="required">
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">URL</label>
+                            <input type="text" class="form-control" id="Url" name="Url" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Açıklama</label>
+                            <input type="text" class="form-control" id="description" name="description" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Kategori</label>
+                            @Html.DropDownList("CategoryID", null, htmlAttributes: new { @class = "form-control select-search " })
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Kullanıcı Adı</label>
+                            <input type="text" class="form-control" id="Username" name="Username" required="required">
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" id="generatedPassword" name="Password" placeholder="Parola" aria-label="Parola" aria-describedby="button-addon2">
+                            <button class="btn btn-outline-secondary" type="button" id="generatePasswordButton">Şifre Oluştur</button>
+                        </div>
+
+                        <button type="button" class="btn btn-primary" id="Kaydet">Ekle</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 
-    <script>
-        $(document).ready(function () {
-            $('#addPasswordButton').on('click', function () {
-                $('#addPasswordModal').modal('show');
-                $(".modal-backdrop").show();
-            });
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Şifreyi Sil</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Şifreyi silmek istediğinizden emin misiniz?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                    <a id="deleteLink" class="btn btn-danger" href="#">Sil</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-            $('#Kaydet').on('click', function (event) {
-                event.preventDefault();
-
-                // Kullanıcı adı alanını kontrol et
-                var username = $('#Username').val();
-                if (username.trim() === '') {
-                    alert('Kullanıcı adı boş bırakılamaz!');
-                    return;
-                }
 
 
-                var formData = $('#addPasswordForm').serialize();
-                var url = '/Home/AddPassword';
+<script>
+    $(document).ready(function () {
 
-                $.ajax({
-                    type: 'POST',
-                    url: url,
-                    data: formData,
-                    success: function (data) {
-                        debugger;
-                        console.log(data);
-                        $('#addPasswordModal').modal('hide');
-                        $(".modal-backdrop").hide();
-                    },
-                    error: function (error) {
-                        console.log(error);
-                    }
-                });
-            });
+       
+        new DataTable('#passwordTable', {
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/tr.json'
+            },
+            ajax: 'https://localhost:44329/Home/GetPasswords',
+            processing: true,
+            serverSide: true,
+            columns: [
+                { data: 'Id' },
+                { data: 'Description' },
+                { data: 'Url' },
+                { data: 'Username' },
+                { data: 'Password' },
+                { data: 'CreatedDate' }
+            ]
         });
-    </script>
-    <script>
-        $(document).ready(function () {
-            $('.delete-button').on('click', function () {
-                var id = $(this).data('id');
-                var deleteUrl = '/Home/Delete/' + id;
-                $('#deleteLink').attr('href', deleteUrl);
-                $('#deleteModal').modal('show');
-            });
+
+
+
+
+
+    });
+
+</script>
+<script>
+    $(document).ready(function () {
+        $('#addPasswordButton').on('click', function () {
+            $('#addPasswordModal').modal('show');
+            $(".modal-backdrop").show();
         });
-    </script>
-    <script>
-        $(document).ready(function () {
-            $('#generatePasswordButton').on('click', function () {
-                var generatedPassword = generateRandomPassword();
-                $('#generatedPassword').val(generatedPassword);
-            });
 
-            function generateRandomPassword() {
-                var length = 12;
-                var charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%^&*()_+";
-                var password = "";
+        $('#Kaydet').on('click', function (event) {
+            event.preventDefault();
 
-                for (var i = 0; i < length; i++) {
-                    var randomIndex = Math.floor(Math.random() * charset.length);
-                    password += charset.charAt(randomIndex);
-                }
-
-                return password;
+            // Kullanıcı adı alanını kontrol et
+            var username = $('#Username').val();
+            if (username.trim() === '') {
+                alert('Kullanıcı adı boş bırakılamaz!');
+                return;
             }
-        });
-    </script>
-    <script>
-        $(document).ready(function () {
 
 
-           
-            new DataTable('#passwordTable', {
-                language: {
-                    url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/tr.json'
+            var formData = $('#addPasswordForm').serialize();
+            var url = '/Home/AddPassword';
+
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: formData,
+                success: function (data) {
+            
+                    $('#addPasswordModal').modal('hide');
+                    $(".modal-backdrop").hide();
+
+                  
+
+
+
+
+                },
+                error: function (error) {
+                    console.log(error);
                 }
             });
-
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('.delete-button').on('click', function () {
+            var id = $(this).data('id');
+            var deleteUrl = '/Home/Delete/' + id;
+            $('#deleteLink').attr('href', deleteUrl);
+            $('#deleteModal').modal('show');
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#generatePasswordButton').on('click', function () {
+            var generatedPassword = generateRandomPassword();
+            $('#generatedPassword').val(generatedPassword);
         });
 
-    </script>
+        function generateRandomPassword() {
+            var length = 12;
+            var charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%^&*()_+";
+            var password = "";
+
+            for (var i = 0; i < length; i++) {
+                var randomIndex = Math.floor(Math.random() * charset.length);
+                password += charset.charAt(randomIndex);
+            }
+
+            return password;
+        }
+    });
+</script>

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Akinsoft.PasswordManager.Models;
+using Akinsoft.PasswordManager.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,23 +10,30 @@ namespace Akinsoft.PasswordManager.Controllers
 {
     public class HomeController : Controller
     {
+        PasswordRepository ps=new PasswordRepository();
         public ActionResult Index()
         {
-            return View();
+            //if (Session["UserName"]==null)
+            //{
+            //    return Redirect("/Account/Login");
+            //}
+            ViewBag.CategoryID = new SelectList(ps.GetListCategory(), "CategoryID", "CategoryName");
+            ViewBag.UserName = new SelectList(ps.GetListUsers(), "UserName", "UserName");
+            return View(ps.GetListPass());
         }
 
-        public ActionResult About()
+        public ActionResult PassAdd()
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
+            ViewBag.CategoryID = new SelectList(ps.GetListCategory(), "CategoryID", "CategoryName");
+            return View(ps.GetListPass());
         }
-
-        public ActionResult Contact()
+        [HttpPost]
+        public JsonResult AddPassword(PasswordRecord mdl)
         {
-            ViewBag.Message = "Your contact page.";
+             
+        return Json(new { data = ps.InsertPass(mdl) }, JsonRequestBehavior.AllowGet);
+             
 
-            return View();
         }
     }
 }

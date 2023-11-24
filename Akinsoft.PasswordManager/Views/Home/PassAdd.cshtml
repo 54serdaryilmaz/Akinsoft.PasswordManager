@@ -1,0 +1,64 @@
+﻿ <!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEX/ndQF2cU+d2IbbjEN6B/PQakQ6aU5FjC51" crossorigin="anonymous"></script>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-eBqXBUVT8hK6IeMkL8ex5Bt2XD8l+YO5FfHAu8K93MD5qB5StUEr00E3aZ6MivjH" crossorigin="anonymous"></script>
+
+<div class=" content">
+
+    <div class="card">
+        <form id="addPasswordForm">
+
+            <div class="mb-3">
+                <label for="description" class="form-label">Kayıt Tanımı</label>
+                <input type="text" class="form-control" id="Description" name="Description" required>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">URL</label>
+                <input type="text" class="form-control" id="Url" name="Url" required>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Açıklama</label>
+                <input type="text" class="form-control" id="description" name="description" required>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Kategori</label>
+                @Html.DropDownList("CategoryID", null, htmlAttributes: new { @class = "form-control select-search " })
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Kullanıcı Adı</label>
+                <input type="text" class="form-control" id="Username" name="Username" required>
+            </div>
+
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" id="generatedPassword" placeholder="Parola" aria-label="Parola" aria-describedby="button-addon2">
+                <button class="btn btn-outline-secondary" type="button" id="generatePasswordButton">Şifre Oluştur</button>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Ekle</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#generatePasswordButton').on('click', function (e) {
+            e.preventDefault(); // Formun submit olayını engelle
+            var generatedPassword = generateRandomPassword();
+            $('#generatedPassword').val(generatedPassword);
+        });
+
+        function generateRandomPassword() {
+            var length = 12;
+            var charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%^&*()_+";
+            var password = "";
+
+            for (var i = 0; i < length; i++) {
+                var randomIndex = Math.floor(Math.random() * charset.length);
+                password += charset.charAt(randomIndex);
+            }
+
+            return password;
+        }
+    });
+</script>

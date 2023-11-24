@@ -1,0 +1,47 @@
+﻿@model Akinsoft.PasswordManager.Models.Users
+
+@{
+    ViewBag.Title = "Kayıt Ol";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Kayıt Ol</title>
+    <link rel="stylesheet" href="~/Content/Site.css" />
+</head>
+<body>
+
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">Kayıt Ol</div>
+                    <div class="card-body">
+                        @using (Html.BeginForm("Register", "Account", FormMethod.Post))
+                        {
+                            <div class="mb-3">
+                                <label>Kullanıcı Adınız</label>
+                                @Html.TextBoxFor(model => model.UserName, new { @class = "form-control" })
+                            </div>
+
+
+
+                            <div class="mb-3">
+                                <label>Şifreniz</label>
+                                @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
+                            </div>
+
+
+                            <button type="submit" class="btn btn-primary">Kayıt Ol</button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

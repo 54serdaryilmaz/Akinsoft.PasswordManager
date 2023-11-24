@@ -27,8 +27,18 @@ namespace Akinsoft.PasswordManager.Repositories
         }
         public List<PasswordRecord> GetListPass(string user)
         {
-            return connection.Query<PasswordRecord>("SELECT * FROM [PasswordRecord] WHERE UserName=@key " , new {key=user}).ToList();
+            return connection.Query<PasswordRecord>("SELECT * FROM [PasswordRecord] WHERE CreatedUser=@key " , new {key=user}).ToList();
         }
+
+        public bool DeletePass(int id, string user)
+        {
+            connection.Execute("DELETE FROM PasswordRecord  WHERE Id = @key and CreatedUser=@createdUser", new { createdUser = user, key = id });
+            return true;
+        }
+
+
+
+
         public Users GetUserID(int ID)
         {
             return connection.Query<Users>("SELECT * FROM [Users]  where Id=@key", new { key = ID }).FirstOrDefault();
@@ -84,16 +94,17 @@ namespace Akinsoft.PasswordManager.Repositories
             {
                 connection.Execute(@"
                     INSERT INTO PasswordRecord
-                               (Description,Password,Url,Username,CategoryID)
+                               (Description,Password,Url,Username,CategoryID,CreatedUser)
                          VALUES
-                               (@str1,@str2,@str3,@str4,@str5)",
+                               (@str1,@str2,@str3,@str4,@str5,@str6)",
                            new
                            {
                                str1 = es.Description,
                                str2 = es.Password,
                                str3 = es.Url,
                                str4 = es.Username,
-                               str5 = es.CategoryID
+                               str5 = es.CategoryID,
+                               str6 = es.CreatedUser
 
                            });
                 return true;

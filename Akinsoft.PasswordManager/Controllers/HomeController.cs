@@ -30,25 +30,36 @@ namespace Akinsoft.PasswordManager.Controllers
             ViewBag.CategoryID = new SelectList(ps.GetListCategory(), "CategoryID", "CategoryName");
             return View(ps.GetListPass(Session["UserName"].ToString()));
         }
+
+
         [HttpPost]
         public JsonResult AddPassword(PasswordRecord mdl)
         {
-             
-        return Json(new { data = ps.InsertPass(mdl) }, JsonRequestBehavior.AllowGet);
+            if (Session["UserName"] == null)
+            {
+                
+                return Json(new { data = "Error" }, JsonRequestBehavior.AllowGet);
+
+            }
+            mdl.CreatedUser = Session["UserName"].ToString();
+            return Json(new { data = ps.InsertPass(mdl) }, JsonRequestBehavior.AllowGet);
              
 
         }
 
 
-
-        public JsonResult GetPasswords()
+        public ActionResult Delete(int id)
         {
             if (Session["UserName"] == null)
             {
-                return Json(new { data = "Error" }, JsonRequestBehavior.AllowGet);
+                return Redirect("/Account/Login");
             }
 
-            return Json(new { data = ps.GetListPass(Session["UserName"].ToString()) }, JsonRequestBehavior.AllowGet);
+            ps.DeletePass(id, Session["UserName"].ToString());
+                return Redirect("/Home/Index");
+
+            
+
         }
 
 

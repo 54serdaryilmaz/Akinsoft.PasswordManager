@@ -40,7 +40,7 @@
                     <th></th>
                 </tr>
             </thead>
-            @*<tbody>
+            <tbody>
                 @foreach (var item in Model)
                 {
                     <tr>
@@ -51,12 +51,12 @@
                         <td>@item.Username</td>
                         <td>@item.Password</td>
                         <td>
-                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Düzenle</a>
-                            <a data-id="@item.Id" class="btn btn-danger">Sil</a>
+                           
+                            <a data-id="@item.Id" class="delete-button btn btn-danger">Sil</a>
                         </td>
                     </tr>
                 }
-            </tbody>*@
+            </tbody>
         </table>
     </div>
 
@@ -131,18 +131,7 @@
         new DataTable('#passwordTable', {
             language: {
                 url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/tr.json'
-            },
-            ajax: 'https://localhost:44329/Home/GetPasswords',
-            processing: true,
-            serverSide: true,
-            columns: [
-                { data: 'Id' },
-                { data: 'Description' },
-                { data: 'Url' },
-                { data: 'Username' },
-                { data: 'Password' },
-                { data: 'CreatedDate' }
-            ]
+            }
         });
 
 
@@ -182,7 +171,9 @@
                     $('#addPasswordModal').modal('hide');
                     $(".modal-backdrop").hide();
 
-                  
+                    debugger;
+
+                    location.reload();
 
 
 

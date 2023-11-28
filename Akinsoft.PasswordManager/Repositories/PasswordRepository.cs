@@ -34,18 +34,15 @@ namespace Akinsoft.PasswordManager.Repositories
         {
             connection.Execute("DELETE FROM PasswordRecord  WHERE Id = @key and CreatedUser=@createdUser", new { createdUser = user, key = id });
             return true;
-        }
-
-
-
+        } 
 
         public Users GetUserID(int ID)
         {
             return connection.Query<Users>("SELECT * FROM [Users]  where Id=@key", new { key = ID }).FirstOrDefault();
         }
-        public bool CategoryUpdate(Category es)
+        public bool CategoryUpdate(int id)
         {
-            connection.Execute("UPDATE Category SET CategoryName=@str1  WHERE CategoryID = @key", new { str1 = es.CategoryName, key = es.CategoryID });
+            connection.Execute("UPDATE Category SET IsActive=0  WHERE CategoryID = @key", new {key = id });
             return true;
         }
         public bool InsertCategory(Category es)

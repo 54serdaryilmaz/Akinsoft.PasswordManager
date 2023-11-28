@@ -53,6 +53,7 @@ namespace Akinsoft.PasswordManager.Controllers
             mdl.Password = ps.Sifrele(mdl.Password);
             ps.InsertUser(mdl);
 
+            Session["UserName"] = mdl.UserName.ToString();
             return Redirect("/Home/Index");
         }
     }

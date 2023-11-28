@@ -1,0 +1,98 @@
+﻿@model IEnumerable<Akinsoft.PasswordManager.Models.Category>
+
+@{
+    ViewBag.Title = "Kategori Listesi";
+}
+
+@section scripts {
+    <script>
+      
+        function deleteCategory(id) {
+            if (confirm('Bu kategoriyi silmek istediğinizden emin misiniz?')) {
+                $.ajax({
+                    url: '/Home/DeleteCategory/' + id,
+                    type: 'POST',
+                    success: function () {
+                        location.reload();
+                    },
+                    error: function () {
+                        alert('Hata oluştu.');
+                    }
+                });
+            }
+        }
+    </script>
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert" style="padding: 20px; background-color: #32cd32; color: white;">
+                    <span class="closebtn" onclick="this.parentElement.style.display='none';" style="margin-left: 15px; color:white;font-weight:bold;float:right;font-size:22px;line-height:20px;cursor:pointer;transition:0.3s;">&times;</span>
+                    @TempData["Success"].ToString()
+                </div>
+            }
+            @if (TempData["Info"] != null)
+            {
+                <div class="alert" style="padding: 20px; background-color: #6495ed; color: white;">
+                    <span class="closebtn" onclick="this.parentElement.style.display='none';" style="margin-left: 15px; color:white;font-weight:bold;float:right;font-size:22px;line-height:20px;cursor:pointer;transition:0.3s;">&times;</span>
+                    @TempData["Info"].ToString()
+                </div>
+            }
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert" style="padding: 20px; background-color: #f44336; color:white;">
+                    <span class="closebtn" onclick="this.parentElement.style.display='none';" style="margin-left: 15px; color:white;font-weight:bold;float:right;font-size:22px;line-height:20px;cursor:pointer;transition:0.3s;">&times;</span>
+                    @TempData["Error"].ToString()
+                </div>
+            }
+        </div>
+    </div>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEditModal">Yeni Ekle</button>
+
+    <table class="table mt-3">
+        <thead>
+            <tr>
+                <th>Kategori Adı</th>
+                <th>Oluşturma Tarihi</th>
+                <th>İşlem</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.CategoryName</td>
+                    <td>@item.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                    <td> 
+                        <button class="btn btn-danger" onclick="deleteCategory(@item.CategoryID)">Sil</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Add/Edit Modal -->
+<div class="modal fade" id="addEditModal" tabindex="-1" aria-labelledby="addEditModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                
+                <div class="modal-body">
+                    <form action="~/Home/AddCategory" method="post">
+                        <div class="mb-3">
+                             <label>Kategori Tanımı : </label>
+                            <input type="text" class="form-control" id="CategoryName" name="CategoryName" required="required">
+                        </div>
+                        <button type="submit" class="btn btn-primary" aria-label="Kaydet">Kaydet</button>
+                    </form>
+                </div>
+                </div>
+
+            </div>
+    </div>
+</div>
+

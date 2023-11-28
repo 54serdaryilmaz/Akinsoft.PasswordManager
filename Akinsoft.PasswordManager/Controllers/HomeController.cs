@@ -56,12 +56,42 @@ namespace Akinsoft.PasswordManager.Controllers
             }
 
             ps.DeletePass(id, Session["UserName"].ToString());
-                return Redirect("/Home/Index");
+                return Redirect("/Home/Index"); 
+        }
+        
+        public ActionResult DeleteCategory(int id)
+        { 
+            ps.CategoryUpdate(id);
+            return Redirect("/Home/Category"); 
+        }
+        public ActionResult Category()
+        {
+            if (Session["UserName"] == null)
+            {
+                return Redirect("/Account/Login");
+            }
 
-            
+            var mdl = ps.GetListCategory();
 
+            return View(mdl);
         }
 
+        [HttpPost]
+        public ActionResult AddCategory(Category category)
+        {
+            var mdl = ps.InsertCategory(category);
+            if (mdl == true)
+            {
+                TempData["Success"] = "Kategori başarıyla eklendi";
+                return RedirectToAction("Category");
+            }
+            else
+            {
+                TempData["Error"] = "Hata oluştu";
+                return RedirectToAction("Category");
+            }
+
+        }
 
 
 
